@@ -1,5 +1,16 @@
 ## Test task for Nimble company
 
+Used:
+
+```
+ - FastAPI
+ - FastAPI-utils
+ - SQLAlchemy
+ - SQLite3
+ - Dropbox
+ - uvicorn
+```
+
 Usage:
 
 ```
