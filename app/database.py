@@ -1,5 +1,3 @@
-"""Database module."""
-
 from contextlib import contextmanager, AbstractContextManager
 from typing import Callable
 import logging

@@ -18,11 +18,11 @@ class Storage:
         """upload a file to Dropbox"""
 
         if self.dbx:
-            self.dbx.files_upload(binary_file_stream, path)
+            self.dbx.files_upload(binary_file_stream, '/' + path)
 
     def download_file(self, path):
         """download file from Dropbox"""
 
         if self.dbx:
-            meta, resp = self.dbx.files_download(path)
+            meta, resp = self.dbx.files_download('/' + path)
             return meta.name, resp.content

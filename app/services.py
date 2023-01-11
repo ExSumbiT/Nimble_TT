@@ -1,5 +1,3 @@
-"""Services module."""
-
 from typing import Iterator
 
 from .repositories import LinkRepository

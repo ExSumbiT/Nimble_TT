@@ -1,7 +1,4 @@
-"""Endpoints module."""
-
 from fastapi import APIRouter, Depends, Response, UploadFile, status
-from fastapi.responses import FileResponse, StreamingResponse
 from dependency_injector.wiring import inject, Provide
 
 from .container import Container
@@ -16,6 +13,8 @@ router = APIRouter()
 def get_list(
         link_service: LinkService = Depends(Provide[Container.link_service]),
 ):
+    """GET method to get all keys"""
+
     return link_service.get_links()
 
 
@@ -25,6 +24,8 @@ def get_by_key(
         link_key: str,
         link_service: LinkService = Depends(Provide[Container.link_service]),
 ):
+    """GET method for obtaining data by key"""
+
     try:
         filename, file_binary_stream = link_service.get_file_by_key(link_key)
         headers = {
@@ -39,4 +40,6 @@ def get_by_key(
 def add(file: UploadFile,
         link_service: LinkService = Depends(Provide[Container.link_service]),
         ):
+    """PUT method for data storage"""
+
     return link_service.create_link(file)

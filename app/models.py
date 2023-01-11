@@ -1,5 +1,3 @@
-"""Models module."""
-
 from sqlalchemy import Column, String
 from fastapi_utils.guid_type import GUID
 import uuid
@@ -8,6 +6,7 @@ from .database import Base
 
 
 class Link(Base):
+    """A model for storing keys according to uploaded files"""
 
     __tablename__ = "files"
 
