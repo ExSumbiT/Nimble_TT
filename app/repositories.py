@@ -29,7 +29,7 @@ class LinkRepository:
             if not link:
                 raise LinkNotFoundError(link_key)
             filename, stream = self.storage.download_file(link.value)
-            # Cyrillic transcript in the file name
+            # Cyrillic translit in the file name
             try:
                 filename = translit(
                     ''.join(filename.split('|')[1:]), reversed=True)
