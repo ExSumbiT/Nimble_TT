@@ -1,0 +1,7 @@
+##Test task for Nimble company
+
+Usage:
+
+1. > git clone https://github.com/ExSumbiT/bfiles_api.git
+2. > pip install -r requirements.txt
+3. > python main.py
