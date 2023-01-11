@@ -1,7 +1,7 @@
 from contextlib import AbstractContextManager
 from typing import Callable, Iterator
 import uuid
-from transliterate import translit
+from transliterate import translit, exceptions
 
 from sqlalchemy.orm import Session
 
@@ -29,8 +29,13 @@ class LinkRepository:
             if not link:
                 raise LinkNotFoundError(link_key)
             filename, stream = self.storage.download_file(link.value)
-            filename = translit(
-                ''.join(filename.split('|')[1:]), reversed=True)
+            # Cyrillic transcript in the file name
+            try:
+                filename = translit(
+                    ''.join(filename.split('|')[1:]), reversed=True)
+            # if the file name is missing Cyrillic
+            except exceptions.LanguageDetectionError:
+                pass
             return filename, stream
 
     def add(self, file) -> Link:
