@@ -1,8 +1,7 @@
-"""Repositories module."""
-
 from contextlib import AbstractContextManager
 from typing import Callable, Iterator
-from fastapi import Response
+import uuid
+from transliterate import translit
 
 from sqlalchemy.orm import Session
 
@@ -17,19 +16,28 @@ class LinkRepository:
         self.storage = Storage()
 
     def get_all(self) -> Iterator[Link]:
+        """returns all Link model objects"""
+
         with self.session_factory() as session:
             return session.query(Link).all()
 
     def get_by_key(self, link_key: str) -> Link:
+        """loads a file from storage, returns its name and data stream"""
+
         with self.session_factory() as session:
             link = session.query(Link).filter(Link.key == link_key).first()
             if not link:
                 raise LinkNotFoundError(link_key)
-            return self.storage.download_file(link.value)
+            filename, stream = self.storage.download_file(link.value)
+            filename = translit(
+                ''.join(filename.split('|')[1:]), reversed=True)
+            return filename, stream
 
     def add(self, file) -> Link:
-        value = '/' + file.filename
-        key = 'test_key_' + file.filename
+        """uploads a file to storage, creates and returns a Link model object"""
+
+        key = str(uuid.uuid4())
+        value = key + '|' + file.filename
         self.storage.upload_file(file.file.read(), value)
         with self.session_factory() as session:
             link = Link(key=key, value=value)
